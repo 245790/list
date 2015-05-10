@@ -42,9 +42,9 @@ public:
    List(const T &item); //initializes a list with one element equal to "item"
    void pushFront(const T &item); //adds element to the front of the list
    void pushBack(const T &item); //adds element to the end of the list
-   T& popFront(); //removes the first element of a list and returns what was
+   void popFront(); //removes the first element of a list and returns what was
                   //removed
-   T& popBack(); //removes the last element of a list and returns what was
+   void popBack(); //removes the last element of a list and returns what was
                  //removed
    void printList(ostream& os); //prints a list to a specified output stream
    bool empty(); //tells if a list is empty
@@ -81,12 +81,11 @@ void List<T>::pushBack(const T &item)
 }
 
 template<class T>
-T& List<T>::popFront()
+void List<T>::popFront()
 {
-   ListItem<T>* deletedItem = head;
-   // delete head; //!!!
-   head = deletedItem->getNext();
-   return deletedItem->getData();
+   ListItem<T>* tmp = head;
+   head = head->getNext();
+   delete tmp; //!!!
 }
 
 template<class T>

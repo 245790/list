@@ -18,7 +18,7 @@ int main()
    a.setLadyLove(true);
    List<knight> myFirstList(k);
    myFirstList.pushFront(a);
-   cout<<myFirstList.popFront()<<"@@@";
+   myFirstList.popFront();
    myFirstList.printList(cout);
 
    knight* p = new knight(k);
