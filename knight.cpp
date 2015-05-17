@@ -1,7 +1,10 @@
-#include <iostream>
-#include <string>
-#include <vector>
+#include <cstdlib>
+#include <istream>
 #include <math.h>
+#include <string>
+#include <time.h>
+#include <vector>
+
 #include "knight.h"
 using namespace std;
 
@@ -10,12 +13,12 @@ knight::knight()
 
 }
 
-knight::knight(knight &obj)
+knight::knight(const knight &obj)
 {
-   this->setName(obj.getName());
-   this->setBallads(obj.getBallads());
-   this->setArmorWeight(obj.getArmorWeight());
-   this->setLadyLove(obj.hasLadyLove());
+   setName(obj.getName());
+   setBallads(obj.getBallads());
+   setArmorWeight(obj.getArmorWeight());
+   setLadyLove(obj.hasLadyLove());
 }
 
 void knight::setName(string _name)
@@ -23,7 +26,7 @@ void knight::setName(string _name)
    name = _name;
 }
 
-string knight::getName()
+string knight::getName() const
 {
    return name;
 }
@@ -33,7 +36,7 @@ void knight::setBallads(int _ballads)
    ballads = _ballads;
 }
 
-int knight::getBallads()
+int knight::getBallads() const
 {
    return ballads;
 }
@@ -43,7 +46,7 @@ void knight::setArmorWeight(float _weight)
    armorWeight = _weight;
 }
 
-float knight::getArmorWeight()
+float knight::getArmorWeight() const
 {
    return armorWeight;
 }
@@ -53,9 +56,34 @@ void knight::setLadyLove(bool _ladyLove)
    ladyLove = _ladyLove;
 }
 
-bool knight::hasLadyLove()
+bool knight::hasLadyLove() const
 {
    return ladyLove;
+}
+
+string randomString();
+
+string randomString()
+{
+   int randomSize = 5 + rand() % 5;
+   char randChar = 'A' + rand() % 26;
+   string randStr;
+   randStr += randChar;
+   for(int i = 0; i < randomSize; i++)
+   {
+      randChar = 'a' + rand() % 26;
+      randStr += randChar;
+   }
+   return randStr;
+}
+
+void knight::randomData()
+{
+   srand(time(NULL));
+   setName(randomString());
+   setArmorWeight(10.0 + (rand() % 16) / 3.0);
+   setBallads(rand() % 15);
+   setLadyLove(rand() % 2 == 0 ? true : false);
 }
 
 int knight::findInName(const string &s)
@@ -145,10 +173,6 @@ vector<int> knight::computePrefixFunction(const string &s)
    int k = 0;
    for(int i = 1; i < len; i++)
    {
-      if(!(k < len))
-      {
-         cout<<"\nZOMG TEH ERROR ALERT\n";
-      }
       while((k > 0) && (s[k] != s[i]))
       {
          k = p[k - 1]; 

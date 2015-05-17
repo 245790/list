@@ -1,6 +1,6 @@
 #ifndef KNIGHT_H
 #define KNIGHT_H
-#include <iostream>
+
 #include <string>
 #include <vector>
 using namespace std;
@@ -15,15 +15,16 @@ private:
    vector<int> computePrefixFunction(const string &s);
 public:
    knight(); //creates empty object
-   knight(knight &obj); //creates object equal to obj
+   knight(const knight &obj); //creates object equal to obj
    void setName(string _name); //accessors
-   string getName();
+   string getName() const;
    void setBallads(int _ballads);
-   int getBallads();
+   int getBallads() const;
    void setArmorWeight(float _weight);
-   float getArmorWeight();
+   float getArmorWeight() const;
    void setLadyLove(bool _ladyLove);
-   bool hasLadyLove();
+   bool hasLadyLove() const;
+   void randomData();
    int findInName(const string& s); //returns the number of the first occurence
                                     // of s in name
    bool practiceTask(); //returns true if letters on even position are all

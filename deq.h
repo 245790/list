@@ -1,6 +1,6 @@
 #ifndef _DEQ_H    // if the name LIST_H is not defined yet
 #define _DEQ_H   // define it
-#include <iostream>
+
 #include "list.h"
 using namespace std;
 
@@ -9,48 +9,81 @@ class Deq
 {
 private:
    List<T> deq;
+   int deqSize;
 public:
    Deq();
    Deq(const T &item);
    void pushFront(const T &item);
    void pushBack(const T &item);
-   T& popFront();
-   T& popBack();
+   int size() const;
+   T popFront();
+   T popBack();
+   bool empty() const;
 };
 
 template<class T>
-Deq::Deq()
+Deq<T>::Deq()
 {
-
+   deqSize = 0;
 }
 
-Deq::Deq(const T &item)
+template<class T>
+Deq<T>::Deq(const T &item)
 {
+   deqSize = 1;
    deq.pushFront(item);
 }
 
 template<class T>
-void Deq::pushFront(const T &item)
+void Deq<T>::pushFront(const T &item)
 {
+   deqSize++;
    deq.pushFront(item);
 }
 
 template<class T>
-void Deq::pushBack(const T &item)
+void Deq<T>::pushBack(const T &item)
 {
+   deqSize++;
    deq.pushBack(item);
 }
 
 template<class T>
-T& Deq::popFront()
+int Deq<T>::size() const
 {
-   return deq.popFront();
+   return deqSize;
 }
 
 template<class T>
-T& Deq::popBack()
+T Deq<T>::popFront()
 {
-   return deq.popBack();
+   if(deqSize > 0)
+   {
+      deqSize--;
+      T data;
+      data = deq.at(0);
+      return data;
+   }
+   // return NULL;
+}
+
+template<class T>
+T Deq<T>::popBack()
+{
+   if(deqSize > 0)
+   {
+      deqSize--;
+      T data;
+      data = deq.at(deqSize); //exactly last
+      return data;
+   }
+   // return NULL;
+}
+
+template<class T>
+bool Deq<T>::empty() const
+{
+   return deq.empty();
 }
 
 #endif

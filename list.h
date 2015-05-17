@@ -2,8 +2,6 @@
 
 #ifndef _LIST_H    // if the name LIST_H is not defined yet
 #define _LIST_H   // define it
-#include <iostream>
-using namespace std;
 
 //An item of a list, auxiliary class for List<T>
 //Should NEVER be used by anyone but List class; my fault
@@ -17,9 +15,8 @@ private:
 public:
    ListItem();
    ListItem(const T &item);
-   // ListItem(const ListItem<T> &item);
    void setNext(ListItem<T> *next);
-   ListItem<T>* getNext();
+   ListItem<T>* getNext() const;
    void setData(const T &data);
    T& getData();
    ListItem<T>& operator=(ListItem<T> arg);
@@ -30,7 +27,7 @@ public:
 //   List<int> myFirstList;
 //   myFirstList.pushFront(5);
 //   myFirstList.pushBack(6);
-//   myFirstList.printList(cout); //any other output stream could be used
+//   myFirstList.print(cout); //any other output stream could be used
 
 template<class T>
 class List
@@ -40,14 +37,16 @@ private:
 public:
    List(); //initializes an empty list
    List(const T &item); //initializes a list with one element equal to "item"
+   ~List(); //destryos a list
    void pushFront(const T &item); //adds element to the front of the list
+   void pushAt(const T &item, int index); //adds element to the stated position
    void pushBack(const T &item); //adds element to the end of the list
-   void popFront(); //removes the first element of a list and returns what was
-                  //removed
-   void popBack(); //removes the last element of a list and returns what was
-                 //removed
-   void printList(ostream& os); //prints a list to a specified output stream
-   bool empty(); //tells if a list is empty
+   void popFront(); //removes the first element of a list
+   void popAt(); //removes the element of a list on a stated position
+   void popBack(); //removes the last element of a list
+   void print(ostream& os) const; //prints a list to a specified output stream
+   bool empty() const; //tells if a list is empty
+   T at(int index) const;
 };
 
 
@@ -65,6 +64,17 @@ List<T>::List(const T &item)
 }
 
 template<class T>
+List<T>::~List()
+{
+   while(head != NULL)
+   {
+      ListItem<T> *tmp = head;
+      head = head->getNext();
+      delete tmp;
+   }
+}
+
+template<class T>
 void List<T>::pushFront(const T &item)
 {
    ListItem<T>* newItem = new ListItem<T>(item);
@@ -73,11 +83,28 @@ void List<T>::pushFront(const T &item)
 }
 
 template<class T>
+void List<T>::pushAt(const T &item, int index)
+{
+   ListItem<T>* tmp = head;
+   for(int i = 0; i < index; i++)
+   {
+      tmp = tmp->getNext();
+   }
+   ListItem<T>* newItem = new ListItem<T>(item); //newItem's next is NULL
+   tmp->setNext(newItem);
+}
+
+
+template<class T>
 void List<T>::pushBack(const T &item)
 {
-   ListItem<T>* newItem = new ListItem<T>(item);
-   newItem->setNext(this->head);
-   this->head = newItem;
+   ListItem<T>* tail = head;
+   while(tail->getNext() != NULL)
+   {
+      tail = tail->getNext();
+   }
+   ListItem<T>* newItem = new ListItem<T>(item); //newItem's next is NULL
+   tail->setNext(newItem);
 }
 
 template<class T>
@@ -85,13 +112,36 @@ void List<T>::popFront()
 {
    ListItem<T>* tmp = head;
    head = head->getNext();
-   delete tmp; //!!!
+   delete tmp;
 }
 
 template<class T>
-void List<T>::printList(ostream& os)
+void List<T>::popBack()
 {
-   ListItem<T>* toPrint = this->head;
+   if(head->getNext() == NULL)
+   {
+      ListItem<T>* last = head;
+      head = NULL;
+      delete last;
+   }
+   else
+   {
+      ListItem<T>* last = head;
+      ListItem<T>* secondLast = head;
+      while(secondLast->getNext()->getNext() != NULL)
+      {
+         secondLast = secondLast->getNext();
+      }
+      last = secondLast->getNext();
+      secondLast->setNext(NULL);
+      delete last;
+   }
+}
+
+template<class T>
+void List<T>::print(ostream& os) const
+{
+   ListItem<T>* toPrint = head;
    while(toPrint != NULL)
    {
       os<<toPrint->getData()<<"\n"; //every item is printed on a new line
@@ -100,10 +150,21 @@ void List<T>::printList(ostream& os)
 }
 
 template<class T>
-bool List<T>::empty()
+bool List<T>::empty() const
 {
    return this->head == NULL; //if the head is NULL, then the list is
                               //empty and the function returns true
+}
+
+template<class T>
+T List<T>::at(int index) const
+{
+   ListItem<T>* itemToReturn = head;
+   for(int i = 0; i < index; i++)
+   {
+      itemToReturn = itemToReturn->getNext();
+   }
+   return itemToReturn->getData();
 }
 
 template<class T>
@@ -126,7 +187,7 @@ void ListItem<T>::setNext(ListItem<T> *next)
 }
 
 template<class T>
-ListItem<T>* ListItem<T>::getNext()
+ListItem<T>* ListItem<T>::getNext() const
 {
    return this->next;
 }
