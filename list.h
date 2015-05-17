@@ -46,7 +46,9 @@ public:
    void popBack(); //removes the last element of a list
    void print(ostream& os) const; //prints a list to a specified output stream
    bool empty() const; //tells if a list is empty
-   T at(int index) const;
+   T at(int index) const; //returns an element on index position
+   int search(const T& item); //returns the position of the first occurence
+                              //of an element or -1
 };
 
 
@@ -165,6 +167,25 @@ T List<T>::at(int index) const
       itemToReturn = itemToReturn->getNext();
    }
    return itemToReturn->getData();
+}
+
+template<class T>
+int List<T>::search(const T& item)
+{
+   ListItem<T> *toSearch = head;
+   int occurence = 0;
+   while(toSearch->getNext() != NULL)
+   {
+      if(toSearch->getData == item)
+      {
+         return occurence;
+      }
+      else
+      {
+         occurence++;
+      }
+   }
+   return -1;
 }
 
 template<class T>
