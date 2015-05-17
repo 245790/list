@@ -79,7 +79,6 @@ string randomString()
 
 void knight::randomData()
 {
-   srand(time(NULL));
    setName(randomString());
    setArmorWeight(10.0 + (rand() % 16) / 3.0);
    setBallads(rand() % 15);
@@ -161,6 +160,21 @@ istream& operator>>(istream& is, knight& obj)
    obj.setArmorWeight(a);
    obj.setLadyLove(l);
    return is;
+}
+
+bool knight::operator==(const knight& obj)
+{
+   if(this->getName() == obj.getName() &&
+      this->getBallads() == obj.getBallads() &&
+      this->getArmorWeight() == obj.getArmorWeight() &&
+      this->hasLadyLove() == obj.hasLadyLove())
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
 }
 
 vector<int> knight::computePrefixFunction(const string &s)

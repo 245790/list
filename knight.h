@@ -34,6 +34,7 @@ public:
                                     //even positions are vowels
    friend ostream& operator<<(ostream& os, knight& obj);
    friend istream& operator>>(istream& is, knight& obj);
+   bool operator==(const knight& obj);
 };
 
 #endif

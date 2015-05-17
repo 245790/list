@@ -1,4 +1,7 @@
+#include <cstdlib>
 #include <iostream>
+#include <time.h>
+
 #include "knight.h"
 #include "list.h"
 #include "deq.h"
@@ -7,16 +10,34 @@ using namespace std;
 
 int main()
 {
+   srand(time(NULL));
    knight k;
    k.setName("Karim");
    k.setBallads(30);
    k.setArmorWeight(2.401);
    k.setLadyLove(false);
+   knight t;
+   t.setName("Anthony");
+   t.setBallads(1);
+   t.setArmorWeight(6.74);
+   t.setLadyLove(true);
    knight a;
-   a.setName("Anthony");
-   a.setBallads(1);
-   a.setArmorWeight(6.74);
-   a.setLadyLove(true);
+   List<knight> myFirstList(k);
+   // cout<<myFirstList.search(k)<<"\n\n";
+   for(int i = 0; i < 100; i++)
+   {
+      a.randomData();
+      if(i % 2 == 0)
+      {
+         myFirstList.pushBack(a);
+      }
+      else
+      {
+         myFirstList.pushFront(a);
+      }
+   }
+   a = myFirstList.at(42);
+   cout<<myFirstList.search(a)<<"\n\n";
    Deq<knight> myFirstDeq(k);
    myFirstDeq.pushBack(a);
    for(int i = 0; i < 100; i++)
