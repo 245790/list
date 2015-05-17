@@ -24,7 +24,7 @@ int main()
    knight a;
    List<knight> myFirstList(k);
    // cout<<myFirstList.search(k)<<"\n\n";
-   for(int i = 0; i < 100; i++)
+   for(int i = 0; i < 5; i++)
    {
       a.randomData();
       if(i % 2 == 0)
@@ -36,8 +36,10 @@ int main()
          myFirstList.pushFront(a);
       }
    }
-   a = myFirstList.at(42);
-   cout<<myFirstList.search(a)<<"\n\n";
+   myFirstList.print(cout);
+   myFirstList.sort();
+   cout<<"\n\n\n\n";
+   myFirstList.print(cout);
    Deq<knight> myFirstDeq(k);
    myFirstDeq.pushBack(a);
    for(int i = 0; i < 100; i++)
@@ -57,10 +59,10 @@ int main()
          resultsSize++;
       }
    }
-   for(int i = 0; i < resultsSize; i++)
-   {
-      a = results.popBack();
-      cout<<a;
-   }
+   // for(int i = 0; i < resultsSize; i++)
+   // {
+   //    a = results.popBack();
+   //    cout<<a;
+   // }
    return 0;
 }

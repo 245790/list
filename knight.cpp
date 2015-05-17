@@ -177,6 +177,32 @@ bool knight::operator==(const knight& obj)
    }
 }
 
+bool knight::operator>(const knight& obj)
+{
+   if(this->getArmorWeight() > obj.getArmorWeight()) //i assume that armor
+                                                     //is what really matters
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
+bool knight::operator<(const knight& obj)
+{
+   if(this->getArmorWeight() < obj.getArmorWeight()) //i assume that armor
+                                                     //is what really matters
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+}
+
 vector<int> knight::computePrefixFunction(const string &s)
 {
    int len = s.size();
